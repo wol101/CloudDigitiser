@@ -1,0 +1,1317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>751</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QWidget" name="widgetPointCloudPlaceholder" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNewMeasurements"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionOpenMeasurements"/>
+    <addaction name="actionImportFromMeasurementsFile"/>
+    <addaction name="actionApplyMatrix"/>
+    <addaction name="separator"/>
+    <addaction name="actionSaveAs"/>
+    <addaction name="actionSaveAsMatrix"/>
+    <addaction name="actionSaveMeasurements"/>
+    <addaction name="actionSaveMeasurementsAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionQuit"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuProcess">
+    <property name="title">
+     <string>Process</string>
+    </property>
+    <addaction name="actionRotateToX"/>
+    <addaction name="actionRotateToY"/>
+    <addaction name="actionRotateToZ"/>
+    <addaction name="separator"/>
+    <addaction name="actionRotateToXAboutZ"/>
+    <addaction name="actionRotateToYAboutZ"/>
+    <addaction name="actionRotateToZAboutX"/>
+    <addaction name="separator"/>
+    <addaction name="actionRotateAboutX"/>
+    <addaction name="actionRotateAboutY"/>
+    <addaction name="actionRotateAboutZ"/>
+    <addaction name="separator"/>
+    <addaction name="actionResetTransformation"/>
+    <addaction name="actionSetOrigin"/>
+    <addaction name="actionCalibratePoint"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionBatchTransform"/>
+    <addaction name="actionDefineSampleBox"/>
+    <addaction name="actionProcessSampleBox"/>
+    <addaction name="actionPreferences"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuProcess"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSphereSelect"/>
+   <addaction name="actionLineSelect"/>
+   <addaction name="actionRectSelect"/>
+   <addaction name="actionMoveTool"/>
+   <addaction name="actionNudge"/>
+   <addaction name="separator"/>
+   <addaction name="actionFitPoint"/>
+   <addaction name="actionFitLine"/>
+   <addaction name="actionFitPlane"/>
+   <addaction name="separator"/>
+   <addaction name="actionPrevFile"/>
+   <addaction name="actionNextFile"/>
+   <addaction name="separator"/>
+   <addaction name="actionDefaultView"/>
+   <addaction name="separator"/>
+   <addaction name="actionViewLeft"/>
+   <addaction name="actionViewRight"/>
+   <addaction name="actionViewFront"/>
+   <addaction name="actionViewBack"/>
+   <addaction name="actionViewTop"/>
+   <addaction name="actionViewBottom"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open PLY File…</string>
+   </property>
+   <property name="toolTip">
+    <string>Open a point cloud PLY file</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quits application</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About…</string>
+   </property>
+   <property name="toolTip">
+    <string>Information about CloudDigitiser</string>
+   </property>
+  </action>
+  <action name="actionFitLine">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/FitLine</normaloff>:/FitLine</iconset>
+   </property>
+   <property name="text">
+    <string>Fit Line</string>
+   </property>
+   <property name="toolTip">
+    <string>Fits a line to the selected points</string>
+   </property>
+  </action>
+  <action name="actionFitPlane">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/FitPlane</normaloff>:/FitPlane</iconset>
+   </property>
+   <property name="text">
+    <string>Fit Plane</string>
+   </property>
+   <property name="toolTip">
+    <string>Fits a plane to the selected points</string>
+   </property>
+  </action>
+  <action name="actionFitPoint">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/FitPoint</normaloff>:/FitPoint</iconset>
+   </property>
+   <property name="text">
+    <string>Fit Point</string>
+   </property>
+   <property name="toolTip">
+    <string>Fits a point to the selected points</string>
+   </property>
+  </action>
+  <action name="actionApplyMatrix">
+   <property name="text">
+    <string>Apply Transformation Matrix…</string>
+   </property>
+   <property name="toolTip">
+    <string>Apply a 4x4 homogenous transformatiom matrix read from file</string>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="text">
+    <string>Save As New PLY File…</string>
+   </property>
+   <property name="toolTip">
+    <string>Save transformed PLY point cloud file</string>
+   </property>
+  </action>
+  <action name="actionSaveAsMatrix">
+   <property name="text">
+    <string>Save Transformation Matrix…</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current transformation as 4x4 homogenous matrix</string>
+   </property>
+  </action>
+  <action name="actionBatchTransform">
+   <property name="text">
+    <string>Batch Transform…</string>
+   </property>
+   <property name="toolTip">
+    <string>Apply a transformation to all files in a folder</string>
+   </property>
+  </action>
+  <action name="actionPrevFile">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/PreviousFile</normaloff>:/PreviousFile</iconset>
+   </property>
+   <property name="text">
+    <string>Prev File</string>
+   </property>
+   <property name="toolTip">
+    <string>← Load previous file in folder</string>
+   </property>
+   <property name="shortcut">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="actionNextFile">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/NextFile</normaloff>:/NextFile</iconset>
+   </property>
+   <property name="text">
+    <string>Next File</string>
+   </property>
+   <property name="toolTip">
+    <string>→ Load next file in folder</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionDefaultView">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/BestFitView</normaloff>:/BestFitView</iconset>
+   </property>
+   <property name="text">
+    <string>Default View</string>
+   </property>
+   <property name="toolTip">
+    <string>Resets to the default view</string>
+   </property>
+  </action>
+  <action name="actionRotateAboutX">
+   <property name="text">
+    <string>Rotate 180° about X</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate 180 degrees about X</string>
+   </property>
+  </action>
+  <action name="actionRotateAboutY">
+   <property name="text">
+    <string>Rotate 180° about Y</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate 180 degrees about Y</string>
+   </property>
+  </action>
+  <action name="actionRotateAboutZ">
+   <property name="text">
+    <string>Rotate 180° about Z</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate 180 degrees about Z</string>
+   </property>
+  </action>
+  <action name="actionRotateToX">
+   <property name="text">
+    <string>Rotate to X</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate vector to (1, 0, 0)</string>
+   </property>
+  </action>
+  <action name="actionRotateToY">
+   <property name="text">
+    <string>Rotate to Y</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate vector to (0, 1, 0)</string>
+   </property>
+  </action>
+  <action name="actionRotateToZ">
+   <property name="text">
+    <string>Rotate to Z</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate vector to (0, 0, 1)</string>
+   </property>
+  </action>
+  <action name="actionCalibratePoint">
+   <property name="text">
+    <string>Calibrate Point…</string>
+   </property>
+   <property name="toolTip">
+    <string>Put in the world coordinates of the last point to generate a scale value</string>
+   </property>
+  </action>
+  <action name="actionSetOrigin">
+   <property name="text">
+    <string>Set Origin</string>
+   </property>
+   <property name="toolTip">
+    <string>Translates the data so the origin matches the last selected point</string>
+   </property>
+  </action>
+  <action name="actionRectSelect">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/RectangleSelect</normaloff>:/RectangleSelect</iconset>
+   </property>
+   <property name="text">
+    <string>Rect Select</string>
+   </property>
+   <property name="toolTip">
+    <string>Select a region enclosed by a rectangle</string>
+   </property>
+  </action>
+  <action name="actionSphereSelect">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/PointSelect</normaloff>:/PointSelect</iconset>
+   </property>
+   <property name="text">
+    <string>Sphere Select</string>
+   </property>
+   <property name="toolTip">
+    <string>Select a region enclosed by a sphere</string>
+   </property>
+  </action>
+  <action name="actionMoveTool">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/MoveTool</normaloff>:/MoveTool</iconset>
+   </property>
+   <property name="text">
+    <string>Move Tool</string>
+   </property>
+   <property name="toolTip">
+    <string>Left click used for movement</string>
+   </property>
+  </action>
+  <action name="actionSaveMeasurements">
+   <property name="text">
+    <string>Save Measurements</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the measurements created from a series of files</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences…</string>
+   </property>
+  </action>
+  <action name="actionLineSelect">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/LineSelect</normaloff>:/LineSelect</iconset>
+   </property>
+   <property name="text">
+    <string>Line Select</string>
+   </property>
+   <property name="toolTip">
+    <string>Select points near a line</string>
+   </property>
+  </action>
+  <action name="actionRotateToXAboutZ">
+   <property name="text">
+    <string>Rotate to X about Z</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate to X axis about Z axis</string>
+   </property>
+  </action>
+  <action name="actionRotateToYAboutZ">
+   <property name="text">
+    <string>Rotate to Y about Z</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate to Y axis about Z axis</string>
+   </property>
+  </action>
+  <action name="actionRotateToZAboutX">
+   <property name="text">
+    <string>Rotate to Z about X</string>
+   </property>
+   <property name="toolTip">
+    <string>Rotate to Z axis about X axis</string>
+   </property>
+  </action>
+  <action name="actionNudge">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/Nudge</normaloff>:/Nudge</iconset>
+   </property>
+   <property name="text">
+    <string>Nudge</string>
+   </property>
+   <property name="toolTip">
+    <string>Allows the keyboard to be used to nudge the point cloud</string>
+   </property>
+  </action>
+  <action name="actionNewMeasurements">
+   <property name="text">
+    <string>New Measurements</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new set of measurements</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOpenMeasurements">
+   <property name="text">
+    <string>Open Measurements File…</string>
+   </property>
+   <property name="toolTip">
+    <string>Open an existing measurements file…</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSaveMeasurementsAs">
+   <property name="text">
+    <string>Save Measurements As…</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Measurements to a file with a new name</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionViewLeft">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionLeft</normaloff>:/ViewDirectionLeft</iconset>
+   </property>
+   <property name="text">
+    <string>View Left</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to -X</string>
+   </property>
+  </action>
+  <action name="actionViewRight">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionRight</normaloff>:/ViewDirectionRight</iconset>
+   </property>
+   <property name="text">
+    <string>View Right</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to +X</string>
+   </property>
+  </action>
+  <action name="actionViewFront">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionFront</normaloff>:/ViewDirectionFront</iconset>
+   </property>
+   <property name="text">
+    <string>View Front</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to -Y</string>
+   </property>
+  </action>
+  <action name="actionViewBack">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionBack</normaloff>:/ViewDirectionBack</iconset>
+   </property>
+   <property name="text">
+    <string>View Back</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to +Y</string>
+   </property>
+  </action>
+  <action name="actionViewTop">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionTop</normaloff>:/ViewDirectionTop</iconset>
+   </property>
+   <property name="text">
+    <string>View Top</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to +Z</string>
+   </property>
+  </action>
+  <action name="actionViewBottom">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/ViewDirectionBottom</normaloff>:/ViewDirectionBottom</iconset>
+   </property>
+   <property name="text">
+    <string>View Bottom</string>
+   </property>
+   <property name="toolTip">
+    <string>Switches eye point to -Z</string>
+   </property>
+  </action>
+  <action name="actionResetTransformation">
+   <property name="text">
+    <string>Reset Transformation</string>
+   </property>
+   <property name="toolTip">
+    <string>Resets the transformation matrix to the identity</string>
+   </property>
+  </action>
+  <action name="actionDefineSampleBox">
+   <property name="text">
+    <string>Define Sample Box...</string>
+   </property>
+   <property name="toolTip">
+    <string>Defines the sample box used for automatic sampling</string>
+   </property>
+  </action>
+  <action name="actionProcessSampleBox">
+   <property name="text">
+    <string>Process Sample Box</string>
+   </property>
+  </action>
+  <action name="actionImportFromMeasurementsFile">
+   <property name="text">
+    <string>Import From Measurements File...</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionOpen_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionQuit_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionAbout_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFitLine</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionFitLine_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFitPlane</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionFitPlane_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFitPoint</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionFitPoint_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionApplyMatrix</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionApplyMatrix_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveAs</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSaveAs_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveAsMatrix</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSaveAsMatrix_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionBatchTransform</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionBatchTransform_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNextFile</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionNextFile_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPrevFile</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionPreviousFile_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDefaultView</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionDefaultView_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateAboutX</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateAboutX_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateAboutY</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateAboutY_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateAboutZ</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateAboutZ_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToX</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToX_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToY</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToY_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToZ</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToZ_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCalibratePoint</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionCalibratePoint_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSetOrigin</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSetOrigin_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRectSelect</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRectSelect_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSphereSelect</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSphereSelect_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMoveTool</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionMoveTool_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveMeasurements</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSaveMeasurements_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPreferences</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionPreferences_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLineSelect</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionLineSelect_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToXAboutZ</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToXAboutZ_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToYAboutZ</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToYAboutZ_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRotateToZAboutX</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionRotateToZAboutX_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNudge</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionNudge_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNewMeasurements</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionNewMeasurements_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpenMeasurements</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionOpenMeasurements_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveMeasurementsAs</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionSaveMeasurementsAs_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewBack</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewBack_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewBottom</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewBottom_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewFront</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewFront_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewLeft</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewLeft_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewRight</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewRight_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewTop</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionViewTop_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionResetTransformation</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionResetTransformation_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDefineSampleBox</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionDefineSampleBox_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionProcessSampleBox</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionProcessSampleBox_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionImportFromMeasurementsFile</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>actionImportFromMeasurements_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>actionOpen_triggered()</slot>
+  <slot>actionQuit_triggered()</slot>
+  <slot>actionAbout_triggered()</slot>
+  <slot>actionFitLine_triggered()</slot>
+  <slot>actionFitPlane_triggered()</slot>
+  <slot>actionRotateToUp_triggered()</slot>
+  <slot>actionFitPoint_triggered()</slot>
+  <slot>actionSetOrigin_triggered()</slot>
+  <slot>actionApplyMatrix_triggered()</slot>
+  <slot>actionSaveAs_triggered()</slot>
+  <slot>actionSaveAsMatrix_triggered()</slot>
+  <slot>actionBatchTransform_triggered()</slot>
+  <slot>actionNextFile_triggered()</slot>
+  <slot>actionPreviousFile_triggered()</slot>
+  <slot>actionDefaultView_triggered()</slot>
+  <slot>actionRotateAboutX_triggered()</slot>
+  <slot>actionRotateAboutY_triggered()</slot>
+  <slot>actionRotateAboutZ_triggered()</slot>
+  <slot>actionRotateToX_triggered()</slot>
+  <slot>actionRotateToY_triggered()</slot>
+  <slot>actionRotateToZ_triggered()</slot>
+  <slot>actionCalibratePoint_triggered()</slot>
+  <slot>actionRectSelect_triggered()</slot>
+  <slot>actionSphereSelect_triggered()</slot>
+  <slot>actionMoveTool_triggered()</slot>
+  <slot>actionSaveMeasurements_triggered()</slot>
+  <slot>actionPreferences_triggered()</slot>
+  <slot>actionLineSelect_triggered()</slot>
+  <slot>actionRotateToXAboutZ_triggered()</slot>
+  <slot>actionRotateToYAboutZ_triggered()</slot>
+  <slot>actionRotateToZAboutX_triggered()</slot>
+  <slot>actionNudge_triggered()</slot>
+  <slot>actionNewMeasurements_triggered()</slot>
+  <slot>actionOpenMeasurements_triggered()</slot>
+  <slot>actionSaveMeasurementsAs_triggered()</slot>
+  <slot>actionViewBack_triggered()</slot>
+  <slot>actionViewFront_triggered()</slot>
+  <slot>actionViewLeft_triggered()</slot>
+  <slot>actionViewRight_triggered()</slot>
+  <slot>actionViewTop_triggered()</slot>
+  <slot>actionViewBottom_triggered()</slot>
+  <slot>actionResetTransformation_triggered()</slot>
+  <slot>actionDefineSampleBox_triggered()</slot>
+  <slot>actionProcessSampleBox_triggered()</slot>
+  <slot>actionImportFromMeasurements_triggered()</slot>
+ </slots>
+</ui>

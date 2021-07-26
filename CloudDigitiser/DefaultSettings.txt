@@ -1,0 +1,32 @@
+Organisation	string	0		AnimalSimulationLaboratory
+Application	string	0		CloudDigitiser2014
+SettingsCode	string	0		magma-trend-2
+
+BackgroundColour	colour	1	Background colour	188	210	222	255
+SelectionColour	colour	1	Selection colour	255	0	0	255
+LabelColour	colour	1	Label colour	255	255	255	255
+GridColour	colour	1	Grid colour	127	127	127	255
+PointFitColout	colour	1	Point fit colour	200	127	64	255
+LineFitColour	colour	1	Line fit colour	64	200	127	255
+PlaneFitColour	colour	1	Plane fit colour	127	64	200	255
+BuildMeasurementColour	colour	1	Measurement sphere colour	32	240	20	255
+
+PixelsForSelection	bool	1	Use pixels for selection distance	TRUE
+LoadPreviousFileAtStartup	bool	1	Load previous file at startup	FALSE
+UseWireFrame	bool	1	Draw using wireframe	FALSE
+DisplayBoundingBox	bool	1	Draw bounding box	FALSE
+DrawNormals	bool	1	Draw normals	FALSE
+UseArrowForFittedLine	bool	1	Use arrows for the fitted lines	TRUE
+
+PixelSelectionDistance	double	1	Selection distance in pixels	5
+WorldSelectionDistance	double	1	Selection distance in world units	0.01
+CameraDistance	double	1	Camera Distance	100
+NudgeAngle	double	1	Nudge Angle	0.1
+AxisSize	double	1	Axis Size	1
+AmbientProportion	double	1	Ambient light proportion	0.2
+DiffuseProportion	double	1	Diffuse light proportion	0.8
+SpecularProportion	double	1	Specular light proportion	0.3
+Shininess	double	1	Object shininess	20
+
+MaxDisplayPixels	int	1	Max Points to Display	10000000
+CircularTesselation	int	1	Tesselation of circular objects	64

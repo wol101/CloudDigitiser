@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BatchProcessDialog</class>
+ <widget class="QDialog" name="BatchProcessDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>532</width>
+    <height>155</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Batch Process Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Source Folder:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="lineEditSourceFolder"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="pushButtonBrowseSourceFolder">
+     <property name="text">
+      <string>Browse…</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Destination Folder:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="lineEditDestinationFolder"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QPushButton" name="pushButtonBrowseDestinationFolder">
+     <property name="text">
+      <string>Browse…</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Transformation File:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="lineEditTransformationFile"/>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="pushButtonBrowseTransformationFile">
+     <property name="text">
+      <string>Browse…</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>BatchProcessDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>BatchProcessDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonBrowseSourceFolder</sender>
+   <signal>clicked()</signal>
+   <receiver>BatchProcessDialog</receiver>
+   <slot>sourceFolderBrowse_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>563</x>
+     <y>36</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>458</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonBrowseDestinationFolder</sender>
+   <signal>clicked()</signal>
+   <receiver>BatchProcessDialog</receiver>
+   <slot>destinationFolderBrowse_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>592</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>528</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonBrowseTransformationFile</sender>
+   <signal>clicked()</signal>
+   <receiver>BatchProcessDialog</receiver>
+   <slot>transformationFileBrowse_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>605</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>609</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>sourceFolderBrowse_clicked()</slot>
+  <slot>destinationFolderBrowse_clicked()</slot>
+  <slot>transformationFileBrowse_clicked()</slot>
+ </slots>
+</ui>

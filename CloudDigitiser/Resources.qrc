@@ -1,0 +1,24 @@
+<RCC>
+    <qresource>
+        <file alias="SetOrigin">images/snap-orto.png</file>
+        <file alias="AboutImage">Icon.iconset/icon_256x256.png</file>
+        <file alias="BestFitView">images/Best Fit View 32x32.png</file>
+        <file alias="FitLine">images/Fit + Lines 32x32.png</file>
+        <file alias="FitPoint">images/Fit + Points 32x32.png</file>
+        <file alias="FitPlane">images/Fit + Rectangle 32x32.png</file>
+        <file alias="MoveTool">images/Hand 32x32.png</file>
+        <file alias="PreviousFile">images/Left Arrow 32x32.png</file>
+        <file alias="LineSelect">images/Pencil + Lines 32x32.png</file>
+        <file alias="PointSelect">images/Pencil + Points 32x32.png</file>
+        <file alias="RectangleSelect">images/Pencil + Rectangle 32x32.png</file>
+        <file alias="NextFile">images/Right Arrow 32x32.png</file>
+        <file alias="Nudge">images/Nudge 32x32.png</file>
+        <file alias="ViewDirectionBack">images/View Direction Back 32x32.png</file>
+        <file alias="ViewDirectionBottom">images/View Direction Bottom 32x32.png</file>
+        <file alias="ViewDirectionFront">images/View Direction Front 32x32.png</file>
+        <file alias="ViewDirectionLeft">images/View Direction Left 32x32.png</file>
+        <file alias="ViewDirectionRight">images/View Direction Right 32x32.png</file>
+        <file alias="ViewDirectionTop">images/View Direction Top 32x32.png</file>
+        <file alias="DefaultSettings">DefaultSettings.txt</file>
+    </qresource>
+</RCC>
