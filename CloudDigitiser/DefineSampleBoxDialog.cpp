@@ -1,6 +1,8 @@
 #include "DefineSampleBoxDialog.h"
 #include "ui_DefineSampleBoxDialog.h"
 
+#include <cmath>
+
 DefineSampleBoxDialog::DefineSampleBoxDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DefineSampleBoxDialog)
