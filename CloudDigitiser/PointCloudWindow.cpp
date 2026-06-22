@@ -512,8 +512,8 @@ void PointCloudWindow::wheelEvent(QWheelEvent * event)
     case nudgeTool:
         // assume each ratchet of the wheel gives a score of 120 (8 * 15 degrees)
         sensitivity = 1200;
-        scale = 1.0 - double(ABS(event->delta())) / sensitivity;
-        if (event->delta() < 0) scale = 1.0 / scale;
+        scale = 1.0 - double(ABS(event->angleDelta().y())) / sensitivity;
+        if (event->angleDelta().y() < 0) scale = 1.0 / scale;
         m_Width *= scale;
         emit EmitStatusString(QString("Image Width %1").arg(m_Width));
         updateCamera();

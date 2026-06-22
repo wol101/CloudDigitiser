@@ -1,13 +1,3 @@
-#include <QGridLayout>
-#include <QString>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QClipboard>
-#include <QColor>
-#include <QDomDocument>
-#include <QtAlgorithms>
-#include <QTextStream>
-
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -25,6 +15,17 @@
 #include "SampleBoxData.h"
 #include "ProcessSampleBox.h"
 
+#include <QGridLayout>
+#include <QString>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QClipboard>
+#include <QColor>
+#include <QDomDocument>
+#include <QtAlgorithms>
+#include <QTextStream>
+
+#include <algorithm>
 
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    m_topLeftWidget->initialiseScene(); // this will delete the demo
 
     QBoxLayout *boxLayout = new QBoxLayout(QBoxLayout::LeftToRight, ui->widgetPointCloudPlaceholder);
-    boxLayout->setMargin(0);
+    boxLayout->setContentsMargins(0, 0, 0, 0);
     QWidget *container = QWidget::createWindowContainer(m_pointCloudWindow);
     boxLayout->addWidget(container);
 
@@ -418,7 +419,7 @@ void MainWindow::actionSaveMeasurements_triggered()
     sampleBox.setAttribute("MaxCorner", QString::asprintf("%.7g %.7g %.7g", maxCorner.x, maxCorner.y, maxCorner.z));
 
     QList<QString> measurementDataKeys = m_MeasurementDataMap.keys();
-    qStableSort(measurementDataKeys.begin(), measurementDataKeys.end(), Misc::numberInStringAsFileNameLessThan);
+    std::stable_sort(measurementDataKeys.begin(), measurementDataKeys.end(), Misc::numberInStringAsFileNameLessThan);
     for (int i = 0; i < measurementDataKeys.size(); i++)
     {
         QString absoluteFilename = measurementDataKeys[i];
@@ -447,7 +448,7 @@ void MainWindow::actionSaveMeasurements_triggered()
     }
 
     QList<QString> sampleBoxDataKeys = m_SampleBoxDataMap.keys();
-    qStableSort(sampleBoxDataKeys.begin(), sampleBoxDataKeys.end(), Misc::numberInStringAsFileNameLessThan);
+    std::stable_sort(sampleBoxDataKeys.begin(), sampleBoxDataKeys.end(), Misc::numberInStringAsFileNameLessThan);
     for (int i = 0; i < sampleBoxDataKeys.size(); i++)
     {
         QString absoluteFilename = sampleBoxDataKeys[i];
@@ -573,7 +574,7 @@ void MainWindow::actionOpenMeasurements_triggered()
                 {
                     setTransform = true;
                     QString transformString = e.attribute("Matrix4x4");
-                    QStringList transformStringTokens = transformString.split(" ", QString::SkipEmptyParts);
+                    QStringList transformStringTokens = transformString.split(" ", Qt::SkipEmptyParts);
                     if (transformStringTokens.size() >= 16)
                     {
                         int count = 0;
@@ -769,7 +770,7 @@ void MainWindow::actionImportFromMeasurements_triggered()
                 {
                     setTransform = true;
                     QString transformString = e.attribute("Matrix4x4");
-                    QStringList transformStringTokens = transformString.split(" ", QString::SkipEmptyParts);
+                    QStringList transformStringTokens = transformString.split(" ", Qt::SkipEmptyParts);
                     if (transformStringTokens.size() >= 16)
                     {
                         int count = 0;
@@ -950,7 +951,7 @@ void MainWindow::actionNextFile_triggered()
     nameFilters << "*.PLY" << "*.ply";
     QDir::Filters filter = QDir::Files;
     QFileInfoList info_list = dir.entryInfoList(nameFilters, filter, QDir::Name);
-    qStableSort(info_list.begin(), info_list.end(), Misc::numberInFileNameLessThan);
+    std::stable_sort(info_list.begin(), info_list.end(), Misc::numberInFileNameLessThan);
     for (int i = 0; i < info_list.count() - 1; i++)
     {
         if (info_list.at(i).absoluteFilePath() == matchName)
@@ -976,7 +977,7 @@ void MainWindow::actionPreviousFile_triggered()
     nameFilters << "*.PLY" << "*.ply";
     QDir::Filters filter = QDir::Files;
     QFileInfoList info_list = dir.entryInfoList(nameFilters, filter, QDir::Name);
-    qStableSort(info_list.begin(), info_list.end(), Misc::numberInFileNameLessThan);
+    std::stable_sort(info_list.begin(), info_list.end(), Misc::numberInFileNameLessThan);
     for (int i = 1; i < info_list.count(); i++)
     {
         if (info_list.at(i).absoluteFilePath() == matchName)
