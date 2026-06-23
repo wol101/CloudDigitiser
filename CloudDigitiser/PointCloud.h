@@ -6,6 +6,8 @@
 #include "geometric_tools/Wm5ApprLineFit3.h"
 #include "geometric_tools/Wm5ApprPlaneFit3.h"
 
+#include <vector>
+
 struct Point
 {
     float x;
@@ -54,7 +56,7 @@ public:
     const Vector3f &GetLastPoint() { return m_LastPoint; }
     const Vector3f &GetLastVector() { return m_LastVector; }
     const Point &GetPoint(int index) { return m_PointList[index]; }
-    const Point *GetPointList() { return m_PointList; }
+    const std::vector<Point> &GetPointList() { return m_PointList; }
     int GetNPoints() { return m_NPoints; }
     int GetNSelected() { return m_NSelected; }
     const Vector3f &GetMinBound() { return m_MinBound; }
@@ -67,12 +69,9 @@ public:
 protected:
     static int TypeSize(const char *type);
 
-    Point *m_PointList;
+    std::vector<Point> m_PointList;
     int m_NPoints;
     int m_NSelected;
-    Octree<int> *m_PointOctree;
-    int m_OctreeSize;
-    double m_OctreeIndexEpsilon;
     Vector3f m_MinBound;
     Vector3f m_MaxBound;
     Vector3f m_SelectionMinBound;

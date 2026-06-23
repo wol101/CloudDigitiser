@@ -19,15 +19,11 @@
 
 PointCloud::PointCloud()
 {
-    m_PointList = 0;
     m_NPoints = 0;
-    m_PointOctree = 0;
     m_MinBound = Vector3f(FLT_MAX, FLT_MAX, FLT_MAX);
     m_MaxBound = Vector3f(-FLT_MAX, -FLT_MAX, -FLT_MAX);
     m_SelectionMinBound = m_MinBound;
     m_SelectionMaxBound = m_MaxBound;
-    m_OctreeSize = 8192;
-    m_OctreeIndexEpsilon = 1e-6;
     m_XDel = 0;
     m_YDel = 0;
     m_ZDel = 0;
@@ -42,8 +38,6 @@ PointCloud::PointCloud()
 
 PointCloud::~PointCloud()
 {
-    if (m_PointList) delete [] m_PointList;
-    if (m_PointOctree) delete m_PointOctree;
 }
 
 int PointCloud::ImportPLY(const char *filename)
@@ -127,8 +121,8 @@ int PointCloud::ImportPLY(const char *filename)
         if (plyFile.ReadNextLine2(line, k_lineSize, true, "comment")) return __LINE__;
     }
 
-    if (m_PointList) delete [] m_PointList;
-    m_PointList = new Point[m_NPoints];
+    m_PointList.clear();
+    m_PointList.resize(m_NPoints, Point{}); // the Point{} sets all the values in the struct to zero
 
     if (fileType == ascii)
     {
@@ -138,47 +132,47 @@ int PointCloud::ImportPLY(const char *filename)
             {
                 if (j == xOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].x = (float)dValue;
                 }
                 else if (j == yOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].y = (float)dValue;
                 }
                 else if (j == zOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].z = (float)dValue;
                 }
                 else if (j == nxOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].nx = (float)dValue;
                 }
                 else if (j == nyOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].ny = (float)dValue;
                 }
                 else if (j == nzOffset)
                 {
-                    if (plyFile.ReadNext(&dValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&dValue)) { return __LINE__; }
                     m_PointList[i].nz = (float)dValue;
                 }
                 else if (j == diffuseRedOffset)
                 {
-                    if (plyFile.ReadNext(&iValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&iValue)) { return __LINE__; }
                     m_PointList[i].r = iValue;
                 }
                 else if (j == diffuseGreenOffset)
                 {
-                    if (plyFile.ReadNext(&iValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&iValue)) { return __LINE__; }
                     m_PointList[i].g = iValue;
                 }
                 else if (j == diffuseBlueOffset)
                 {
-                    if (plyFile.ReadNext(&iValue)) { delete [] m_PointList; return __LINE__; }
+                    if (plyFile.ReadNext(&iValue)) { return __LINE__; }
                     m_PointList[i].b = iValue;
                 }
             }
@@ -188,40 +182,46 @@ int PointCloud::ImportPLY(const char *filename)
     else
     {
         ptr = plyFile.GetIndex();
-        if (xSize == 4 && nxSize == 4 && diffuseRedSize == 1)
+        if (xSize == 4 && diffuseRedSize == 1)
         {
             for (i = 0; i < m_NPoints; i++)
             {
                 m_PointList[i].x = *((float *)(ptr + xOffset));
                 m_PointList[i].y = *((float *)(ptr + yOffset));
                 m_PointList[i].z = *((float *)(ptr + zOffset));
-                m_PointList[i].nx = *((float *)(ptr + nxOffset));
-                m_PointList[i].ny = *((float *)(ptr + nyOffset));
-                m_PointList[i].nz = *((float *)(ptr + nzOffset));
+                if (nxSize == 4)
+                {
+                    m_PointList[i].nx = *((float *)(ptr + nxOffset));
+                    m_PointList[i].ny = *((float *)(ptr + nyOffset));
+                    m_PointList[i].nz = *((float *)(ptr + nzOffset));
+                }
                 m_PointList[i].r = *((unsigned char *)(ptr + diffuseRedOffset));
                 m_PointList[i].g = *((unsigned char *)(ptr + diffuseGreenOffset));
                 m_PointList[i].b = *((unsigned char *)(ptr + diffuseBlueOffset));
                 m_PointList[i].a = 255;
                 ptr += offset;
-                if ((ptr - plyFile.GetRawData()) > static_cast<ptrdiff_t>(plyFile.GetSize())) { delete [] m_PointList; return __LINE__; }
+                if ((ptr - plyFile.GetRawData()) > static_cast<ptrdiff_t>(plyFile.GetSize())) { return __LINE__; }
             }
         }
-        else if (xSize == 8 && nxSize == 8 && diffuseRedSize == 1)
+        else if (xSize == 8 && diffuseRedSize == 1)
         {
             for (i = 0; i < m_NPoints; i++)
             {
                 m_PointList[i].x = (float) *((double *)(ptr + xOffset));
                 m_PointList[i].y = (float) *((double *)(ptr + yOffset));
                 m_PointList[i].z = (float) *((double *)(ptr + zOffset));
-                m_PointList[i].nx = (float) *((double *)(ptr + xOffset));
-                m_PointList[i].ny = (float) *((double *)(ptr + yOffset));
-                m_PointList[i].nz = (float) *((double *)(ptr + zOffset));
+                if (nxSize == 8)
+                {
+                    m_PointList[i].nx = (float) *((double *)(ptr + xOffset));
+                    m_PointList[i].ny = (float) *((double *)(ptr + yOffset));
+                    m_PointList[i].nz = (float) *((double *)(ptr + zOffset));
+                }
                 m_PointList[i].r = *((unsigned char *)(ptr + diffuseRedOffset));
                 m_PointList[i].g = *((unsigned char *)(ptr + diffuseGreenOffset));
                 m_PointList[i].b = *((unsigned char *)(ptr + diffuseBlueOffset));
                 m_PointList[i].a = 255;
                 ptr += offset;
-                if ((ptr - plyFile.GetRawData()) > static_cast<ptrdiff_t>(plyFile.GetSize())) { delete [] m_PointList; return __LINE__; }
+                if ((ptr - plyFile.GetRawData()) > static_cast<ptrdiff_t>(plyFile.GetSize())) { return __LINE__; }
             }
         }
     }
@@ -238,23 +238,6 @@ int PointCloud::ImportPLY(const char *filename)
         if (m_PointList[i].z > m_MaxBound.z) m_MaxBound.z = m_PointList[i].z;
         if (m_PointList[i].z < m_MinBound.z) m_MinBound.z = m_PointList[i].z;
    }
-
-    // now add the vertices to the octree
-    if (m_UseOctree)
-    {
-        m_XDel = (m_MaxBound.x - m_MinBound.x) / ((double)m_OctreeSize - m_OctreeIndexEpsilon);
-        m_YDel = (m_MaxBound.y - m_MinBound.y) / ((double)m_OctreeSize - m_OctreeIndexEpsilon);
-        m_ZDel = (m_MaxBound.z - m_MinBound.z) / ((double)m_OctreeSize - m_OctreeIndexEpsilon);
-
-        m_PointOctree = new Octree<int>(m_OctreeSize);
-        for (i = 0; i < m_NPoints; i++)
-        {
-            ix = (int)((m_PointList[i].x - m_MinBound.x) / m_XDel);
-            iy = (int)((m_PointList[i].y - m_MinBound.y) / m_YDel);
-            iz = (int)((m_PointList[i].z - m_MinBound.z) / m_ZDel);
-            m_PointOctree->set(ix, iy, iz, i);
-        }
-    }
 
     return 0;
 }
@@ -472,9 +455,9 @@ int PointCloud::SetAlphaSphere(const Vector3f &screenSelect, float screenRadius,
     // it would probably be quicker to do a broad phase with a transformed bounding box
     // followed by a narrow phase of just the points that could possibly be affected
     Matrix4f modelWorldTrans = worldTrans * m_Transformation;
-    ptr = m_PointList;
     for (i = 0; i < m_NPoints; i++)
     {
+        ptr = &m_PointList[i];
         v3 = (modelWorldTrans * Vector4f(ptr->x, ptr->y, ptr->z, 1.f)).To3f();
         if (BOUNDS(v3.z, -1, 1))
         {
@@ -509,9 +492,9 @@ int PointCloud::SetAlphaSphere(const Vector3f &screenSelect, float screenRadius,
     }
 
     // now select all the points within the radius
-    ptr = m_PointList;
     for (i = 0; i < m_NPoints; i++)
     {
+        ptr = &m_PointList[i];
         v3 = Vector3f(ptr->x - minDistancePtr->x, ptr->y - minDistancePtr->y, ptr->z - minDistancePtr->z);
         if (v3.Magnitude2() <= radiusSquared)
         {
@@ -545,9 +528,9 @@ void PointCloud::FindClosestPoint(const Vector3f &screenSelect, const Matrix4f &
     // it would probably be quicker to do a broad phase with a transformed bounding box
     // followed by a narrow phase of just the points that could possibly be affected
     Matrix4f modelWorldTrans = worldTrans * m_Transformation;
-    ptr = m_PointList;
     for (i = 0; i < m_NPoints; i++)
     {
+        ptr = &m_PointList[i];
         v3 = (modelWorldTrans * Vector4f(ptr->x, ptr->y, ptr->z, 1.f)).To3f();
         if (BOUNDS(v3.z, -1, 1))
         {
@@ -580,9 +563,9 @@ int PointCloud::FitPointToSphere(const Vector3f &screenSelect, float screenRadiu
     // it would probably be quicker to do a broad phase with a transformed bounding box
     // followed by a narrow phase of just the points that could possibly be affected
     Matrix4f modelWorldTrans = worldTrans * m_Transformation;
-    ptr = m_PointList;
     for (i = 0; i < m_NPoints; i++)
     {
+        ptr = &m_PointList[i];
         v3 = (modelWorldTrans * Vector4f(ptr->x, ptr->y, ptr->z, 1.f)).To3f();
         if (BOUNDS(v3.z, -1, 1))
         {
@@ -610,9 +593,9 @@ int PointCloud::FitPointToSphere(const Vector3f &screenSelect, float screenRadiu
     // now sum all the points within the radius
     float xSum = 0, ySum = 0, zSum = 0;
     int numPoints = 0;
-    ptr = m_PointList;
     for (i = 0; i < m_NPoints; i++)
     {
+        ptr = &m_PointList[i];
         v3 = Vector3f(ptr->x - minDistancePtr->x, ptr->y - minDistancePtr->y, ptr->z - minDistancePtr->z);
         if (v3.Magnitude2() <= radiusSquared)
         {

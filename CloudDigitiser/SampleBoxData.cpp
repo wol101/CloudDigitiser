@@ -18,14 +18,14 @@ SampleBoxData::SampleBoxData()
 void SampleBoxData::Calculate()
 {
     int maxPoints = m_pointCloud->GetNPoints();
-    const Point *pointList = m_pointCloud->GetPointList();
+    const std::vector<Point> &pointList = m_pointCloud->GetPointList();
     float *xPtr = new float[maxPoints];
     float *yPtr = new float[maxPoints];
     float *zPtr = new float[maxPoints];
     float xSum = 0;
     float ySum = 0;
     float zSum = 0;
-    float x, y, z;
+    // float x, y, z;
     m_nPoints = 0;
     for (int i = 0; i < maxPoints; i++)
     {

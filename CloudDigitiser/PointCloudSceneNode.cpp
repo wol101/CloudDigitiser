@@ -149,7 +149,7 @@ void PointCloudSceneNode::initializeVertices(PointCloud *pointCloud, irr::s32 ma
 
         irr::video::S3DVertex v;
         irr::u32 i, j;
-        const Point *pointList = pointCloud->GetPointList();
+        const std::vector<Point> &pointList = pointCloud->GetPointList();
         for (j = 0; j < NumVertices; j++)
         {
             i = j * stride;
